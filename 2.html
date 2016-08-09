@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang='en-GB'>
+<head>
+  <meta charset='utf-8'>
+  <title>Ractive test</title>
+</head>
+
+<body>
+  <h1>Ractive test</h1>
+
+  <div id='container'></div>
+ <!--  ways to get data : get country.climate.temperature
+  			1.country.climate.temperature
+  			2.{{#country}}
+				 {{climate.temperature}}
+
+				 {{#climate}}
+					 {{temperature}}
+				  {{/climate}}
+
+			  {{/country}}
+			3.{{#with country}}
+				 {{climate.temperature}}
+			  {{/with}} -->
+  <script id='template' type='text/ractive'>
+    <h2>Country profile</h2>
+	<!-- 1 -->
+	<p>{{country.name}} is a {{country.climate.temperature}} country with {{country.climate.rainfall}} rainfall and a population of {{country.population}}.</p>1
+
+	<p>The capital city is {{country.capital.name}} (<a href='https://maps.google.co.uk/maps/place/{{country.capital.name}}/@{{country.capital.lat}},{{country.capital.lon}},12z' target='_blank'>see map</a>).</p>
+
+  	<!-- 2 -->
+	{{#country}}
+	  <p>{{name}} is a {{climate.temperature}} country
+	  with {{climate.rainfall}} rainfall and a population
+	  of {{population}}.</p>
+	{{/country}}
+	
+	<!-- 3 -->
+	{{#with country}}
+	  <p>{{name}} is a {{climate.temperature}} country with {{climate.rainfall}} rainfall and a population of {{population}}.</p>
+
+	  {{#with capital}}
+		<p>The capital city is {{name}} (<a href='https://maps.google.co.uk/maps/place/{{name}}/@{{lat}},{{lon}},12z' target='_blank'>see map</a>).</p>
+	  {{/with}}
+
+	{{/with}}
+  </script>
+
+  <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
+
+  <script>
+    var ractive = new Ractive({
+      el: '#container',
+      template: '#template',
+      data: { country: {
+				name: 'The UK',
+				climate: { temperature: 'cold', rainfall: 'excessive' },
+				population: 63230000,
+				capital: { name: 'London', lat: 51.5171, lon: -0.1062 }
+				}
+			}
+	});
+	
+	ractive.set( 'country', {
+	  name: 'Australia',
+	  climate: { temperature: 'hot', rainfall: 'limited' },
+	  population: 22620600,
+	  capital: { name: 'Canberra', lat: -35.2828, lon: 149.1314 }
+	});
+	
+	var country = ractive.get('country');//get country
+
+	country.climate.rainfall = 'very high';// set country.climate.rainfall
+	ractive.update('country');//update country
+  </script>
+</body>
+</html>

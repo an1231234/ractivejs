@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang='en-GB'>
+<head>
+  <meta charset='utf-8'>
+  <title>Ractive test</title>
+</head>
+
+<body>
+  <h1>Ractive test</h1>
+
+  <div id='container'></div>
+ 	<!-- when i use on-tap, it doesn't work -->
+  <script id='template' type='text/ractive'>
+    <button on-click='activate'>Activate!</button>
+    <button on-click='deactivate'>Deactivate!</button>
+    <button on-click='silence'>Silence!</button>
+  </script>
+
+  <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
+
+  <script>
+    var ractive = new Ractive({
+      el: '#container',
+      template: '#template'
+	});
+	listener = ractive.on({
+	  activate: function () {
+	    alert( 'Activating!' );
+	  },
+	  deactivate: function () {
+	    alert( 'Deactivating!' );
+	  },
+	  silence: function () {
+	  	alert( 'No more alerts!' );
+	  	listener.cancel();
+	  }
+});
+  </script>
+</body>
+</html>

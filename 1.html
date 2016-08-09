@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang='en-GB'>
+<head>
+  <meta charset='utf-8'>
+  <title>Ractive test</title>
+</head>
+
+<body>
+  <h1>Ractive test</h1>
+
+  <div id='container'></div>
+
+  <script id='template' type='text/ractive'>
+    <p style='color: {{color}}; font-size: {{size}}em; font-family: {{font}};'>
+	  {{greeting}} {{name}}!
+	</p>
+	<button id='count'>Times this button has been clicked: {{counter}}</button>
+  </script>
+
+  <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
+
+
+  <script>
+    var ractive = new Ractive({
+	  el: '#container',
+	  template: '#template',
+	  data: {
+		greeting: 'Hello',
+		name: 'world',
+		color: 'purple',
+		size: 4,
+		font: 'Georgia',
+		counter: 0
+	  }
+	});
+	ractive.set('greeting', 'Bonjour');
+	ractive.set('name', 'tout le monde');
+	ractive.set({
+	  greeting: '你好',
+	  name: '世界'
+	});
+	
+	
+	document.getElementById( 'count' ).addEventListener( 'click', function () {
+	  ractive.set( 'counter', ractive.get( 'counter' ) + 1 );
+	});
+  </script>
+</body>
+</html>

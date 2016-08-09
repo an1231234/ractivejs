@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang='en-GB'>
+<head>
+  <meta charset='utf-8'>
+  <title>Ractive test</title>
+</head>
+
+<body>
+  <h1>Ractive test</h1>
+
+  <div id='container'></div>
+ 
+  <script id='template' type='text/ractive'>
+    <div class='slideshow'>
+      <div class='main'>
+        <a class='prev' on-click='goto:{{current-1}}'><span>&laquo;</span></a>
+        <div class='main-image'
+             style='background-image: url({{image.src}});min-height: 150px;'>
+        </div>
+        <a class='next' on-click='goto:{{current+1}}'><span>&raquo;</span></a>
+      </div>
+
+      <div class='caption'>
+        <p>{{image.caption}}</p>
+      </div>
+    </div>
+  </script>
+
+  <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
+
+  <script>
+  images = [
+    { src: 'images.jpg', caption: 'Trying to work out a problem after the 5th hour' },
+    { src: 'images.jpg', caption: 'Trying to work out a problem after the 5th hour' },
+    { src: 'images.jpg', caption: 'Trying to work out a problem after the 5th hour' }
+  ];
+    var ractive = new Ractive({
+      el: '#container',
+      template: '#template',
+      data: {
+        image: {
+          src: 'images.jpg',
+          caption: 'Trying to work out a problem after the 5th hour'
+        }
+      }
+    });
+    var Slideshow = Ractive.extend({
+      template: template,
+
+      // method for changing the currently displayed image
+      goto: function ( imageNum ) {
+        var images = this.get( 'images' );
+
+        // Make sure the image number is between 0...
+        while ( imageNum < 0 ) {
+          imageNum += images.length;
+        }
+
+        // ...and the maximum
+        imageNum %= images.length;
+
+        // Then, update the view
+        this.set({
+          image: images[ imageNum ],
+          current: imageNum
+        });
+      },
+
+      // initialisation code
+      oninit: function ( options ) {
+        this.on( 'goto', function ( event, index ) {
+          this.goto( index );
+        });
+
+        // start with the first image
+        this.goto( 0 );
+      }
+    });
+
+    var slideshow = new Slideshow({
+      el: output,
+      data: { images: images }
+    });
+  </script>
+</body>
+</html>

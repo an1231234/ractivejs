@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang='en-GB'>
+<head>
+  <meta charset='utf-8'>
+  <title>Ractive test</title>
+</head>
+
+<body>
+  <h1>Ractive test</h1>
+
+  <div id='container'></div>
+ 
+  <script id='template' type='text/ractive'>
+    <p>The population of {{country}} is {{ format(population) }}.</p>
+
+    <table>
+		<tr>
+			<th>Price per {{item}}</th>
+			<th>Quantity</th>
+			<th>Total</th>
+		</tr>
+
+		<tr>
+			<td>{{price}}</td>
+			<td>{{quantity}}</td>
+			<td>{{ format(price * quantity) }}</td> <!-- add the total here -->
+		</tr>
+	</table>
+
+	<p>red:</p>
+	<div style='background-color: red;
+	     width: {{red*100}}%;height: 1.6em;'></div>
+
+	<p>green:</p>
+	<div style='background-color: green;
+	     width: {{green*100}}%;height: 1.6em;'></div>
+
+	<p>blue:</p>
+	<div style='background-color: blue;
+	     width: {{blue*100}}%;height: 1.6em;'></div>
+
+	<p><strong>result:</strong></p>
+	<div style='background-color:
+	  rgb({{Math.round(red   * 255)}},
+	      {{Math.round(green * 255)}},
+	      {{Math.round(blue  * 255)}});height: 1.6em'>
+	</div>
+  </script>
+
+  <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
+
+  <script>
+    var ractive = new Ractive({
+      el: '#container',
+      template: '#template',
+      data: {
+	    country: 'the UK',
+	    population: 63230000,
+	    format: function ( num ) {
+	      if ( num > 1000000000 ) return ( num / 1000000000 ).toFixed( 1 ) + ' billion';
+	      if ( num > 1000000 ) return ( num / 1000000 ).toFixed( 1 ) + ' million';
+	      if ( num > 1000 ) return ( Math.floor( num / 1000 ) ) + ',' + ( num % 1000 );
+	      if ( num < 1 ) return ( 100 * num ) + 'p';
+  			return '£' + num.toFixed( 2 );
+	      return num;
+	    },
+
+	    item: 'pint of milk',
+	    price: 0.49,
+	    quantity: 5,
+
+	    red: 0.45,
+	    green: 0.61,
+	    blue: 0.2
+	  }
+	});
+
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang='en-GB'>
+<head>
+  <meta charset='utf-8'>
+  <title>Ractive test</title>
+</head>
+
+<body>
+  <h1>Ractive test</h1>
+
+  <div id='container'></div>
+ 
+  <script id='template' type='text/ractive'>
+    <label>
+      Enter your name:
+      <input value='{{name}}'>
+    </label>
+
+    <p>Hello, {{name}}!</p>
+
+    <label>
+      <input type='checkbox' checked='{{checked}}'>
+      {{#if checked}}checked!{{else}}not checked{{/if}}
+    </label>
+
+    <fieldset>
+      <label><input type='radio' name='{{color}}' value='red' checked> red</label>
+      <label><input type='radio' name='{{color}}' value='green'> green</label>
+      <label><input type='radio' name='{{color}}' value='blue'> blue</label>
+      <p>The selected colour is <span style='color: {{color}};'>{{color}}</span>.</p>
+    </fieldset>
+
+
+    <select value='{{color}}'>
+      {{#each colors}}
+        <option>{{this}}</option>
+      {{/each}}
+    </select>
+
+    <p>The selected colour is <span style='color: {{color}};'>{{color}}</span>.</p>
+
+
+    <p>Use <kbd>Shift</kbd> and <kbd>{{meta}}</kbd> to select multiple options:</p>
+
+      <select value='{{selectedColors}}' multiple>
+        {{#each colors}}
+          <option>{{this}}</option>
+        {{/each}}
+      </select>
+
+      {{#if selectedColors.length}}
+        <p>The selected colours are:</p>
+        <ul>
+          {{#each selectedColors}}
+            <li style='background-color: {{this}};'>{{this}}</li>
+          {{/each}}
+        </ul>
+      {{else}}
+        <p>No colours are selected.</p>
+      {{/if}}
+  </script>
+
+  <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
+
+  <script>
+  var colors = [ 'red', 'green', 'blue' ];
+    var ractive = new Ractive({
+      el: '#container',
+      template: '#template',
+      data: {
+        colors: colors,
+        color: colors[1],
+        meta: /Mac/.test(navigator.appVersion) ? 'Cmd' : 'Ctrl'
+      }
+    });
+  </script>
+</body>
+</html>

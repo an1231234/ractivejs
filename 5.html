@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang='en-GB'>
+<head>
+  <meta charset='utf-8'>
+  <title>Ractive test</title>
+</head>
+
+<body>
+  <h1>Ractive test</h1>
+
+  <div id='container'></div>
+ 
+  <script id='template' type='text/ractive'>
+
+    {{#if signedIn}}
+      <p>Welcome back, {{username}}!</p>
+    {{else}}
+      <p>Hi there! Please <a class='button' on-click='signIn'>sign in</a></p>
+    {{/if}}
+
+    {{#unless signedIn}}
+      <p>Hi there! Please <a class='button' on-click='signIn'>sign in</a></p>
+    {{/unless}}
+    
+
+  </script>
+
+  <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
+
+  <script>
+    var ractive = new Ractive({
+      el: '#container',
+      template: '#template',
+      data: {
+        signedIn: false,
+        notSignedIn: true
+      }
+	});
+	ractive.on( 'signIn', function () {
+    var name = prompt( 'Enter your username to sign in', 'ractive_fan' );
+
+    ractive.set({
+      username: name,
+      signedIn: true,
+      notSignedIn: false
+    });
+  });
+  </script>
+</body>
+</html>
