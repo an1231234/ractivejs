@@ -15,7 +15,7 @@
       <div class='main'>
         <a class='prev' on-click='goto:{{current-1}}'><span>&laquo;</span></a>
         <div class='main-image'
-             style='background-image: url({{image.src}});min-height: 150px;'>
+             style='background-image: url({{image.src}});background-repeat: no-repeat;background-position: center top;min-height: 150px;'>
         </div>
         <a class='next' on-click='goto:{{current+1}}'><span>&raquo;</span></a>
       </div>
@@ -29,23 +29,15 @@
   <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
 
   <script>
-  images = [
+  var images = [
     { src: 'images.jpg', caption: 'Trying to work out a problem after the 5th hour' },
-    { src: 'images.jpg', caption: 'Trying to work out a problem after the 5th hour' },
-    { src: 'images.jpg', caption: 'Trying to work out a problem after the 5th hour' }
+    { src: 'slider1.jpg', caption: 'slider 1 Trying to work out a problem after the 5th hour' },
+    { src: 'slider2.jpg', caption: 'slider 2 Trying to work out a problem after the 5th hour' }
   ];
-    var ractive = new Ractive({
-      el: '#container',
-      template: '#template',
-      data: {
-        image: {
-          src: 'images.jpg',
-          caption: 'Trying to work out a problem after the 5th hour'
-        }
-      }
-    });
+   
     var Slideshow = Ractive.extend({
-      template: template,
+
+      template: '#template',
 
       // method for changing the currently displayed image
       goto: function ( imageNum ) {
@@ -78,7 +70,7 @@
     });
 
     var slideshow = new Slideshow({
-      el: output,
+      el: '#container',
       data: { images: images }
     });
   </script>
